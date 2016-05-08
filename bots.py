@@ -79,6 +79,11 @@ async def torrent2magnet(chat, document):
         logger.exception('torrent2magnet: unhandled error')
 
 
+@t2m_bot.command('')
+async def torrent2magnet_wrong_cmd(chat, match):
+    await chat.send_text('Send me torrent file 🤖')
+
+
 @m2t_bot.command('')
 async def magnet2torrent(chat, match):
     logger.info('magnet2torrent: session start [%d]', chat.sender['id'])
@@ -98,6 +103,11 @@ async def magnet2torrent(chat, match):
         await chat.send_document(document=torrent_content, caption=file_name)
     else:
         await chat.send_text('Failed convert magnet link to torrent file. Sorry 😫')
+
+
+@m2t_bot.handle('document')
+async def magnet2torrent(chat, document):
+    await chat.send_text('Send me magnet link 🤖')
 
 
 def magnet2torrent_worker(magnet):
